@@ -48,7 +48,7 @@ void changeLights() {
   for (int x=0; x<10; x++) {
     digitalWrite(pedGreen, HIGH);
     delay(250);
-    ditigalWrite(pedGreen, LOW);
+    digitalWrite(pedGreen, LOW);
     delay(250);
   }
   // turn ped red on
@@ -59,7 +59,7 @@ void changeLights() {
   digitalWrite(carRed, LOW); // red off
   delay (1000);
   digitalWrite(carGreen, HIGH);
-  dititalWrite(carYellow, LOW); // yellow off
+  digitalWrite(carYellow, LOW); // yellow off
 
   //record the time since last change of lights
   changeTime = millis();
