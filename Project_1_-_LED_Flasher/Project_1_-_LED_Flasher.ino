@@ -12,4 +12,4 @@ void loop() {
   digitalWrite(ledPin, LOW);
   delay(1000);
 }
-
+//lol nice1 man
