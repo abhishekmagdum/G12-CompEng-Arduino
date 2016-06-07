@@ -5,8 +5,7 @@ int ledDelay; // delay between changes
 int direction = 1;
 int currentLED = 0;
 unsigned long changeTime;
-int potPin = 2; // select the input
-pin for the potentiometer
+int potPin = 2; // select the input pin for the potentiometer
 void setup() {
  // set all pins to output
  for (int x=0; x<10; x++) {
@@ -16,8 +15,7 @@ void setup() {
 void loop() {
 // read the value from the pot
 ledDelay = analogRead(potPin);
- // if it has been ledDelay ms since
-last change
+ // if it has been ledDelay ms since last change
  if ((millis() - changeTime) >
 ledDelay) {
  changeLED();
@@ -34,8 +32,7 @@ void changeLED() {
 HIGH);
  // increment by the direction value
  currentLED += direction;
- // change direction if we reach the
-end
+ // change direction if we reach the end
  if (currentLED == 9) {direction =
 -1;}
  if (currentLED == 0) {direction = 1;}
