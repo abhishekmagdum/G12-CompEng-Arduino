@@ -1,22 +1,14 @@
-/* 
-Made by Marco Fusco
-May 20, 2016
-Contact me at: marcofusco111@gmail.com
-*/
-   
-
 #include <LiquidCrystal.h>
 #include <EEPROM.h>
 #include <Servo.h>
 
 int address = 0;
-static unsigned long SaveTimer;
+static unsigned long SaveTimer;                
 static unsigned long SaveDelay = (30 * 1000); 
 
-
-char CODE[10] = "1234E"; 
+char CODE[10] = "E";                  
 char Str[10]; 
-char CodeLength = 4;
+char CodeLength = 0;
 int Pos = 0;
 bool Unlocked;
 static unsigned long DisplayTimer; 
@@ -33,17 +25,18 @@ int buttonPin4 = 5;
 int enterbutton = 10; 
 int clearlockbutton = 13;
 
-Servo myServo;
+Servo myServo;                    
 
 void setup() {
 
-  myServo.attach(A1);
+  myServo.attach(A1);  
+
+  Lock();
   
   int EEPROMCodeOK = true;
   for (Pos = 0; Pos <= (CodeLength); Pos++) {
     Str[Pos] =  EEPROM.read(Pos);
     if (!(strrchr("1123456789", Str[Pos]))) { 
-      // not a valid code
       EEPROMCodeOK = false;
     }
   }
@@ -77,7 +70,7 @@ void setup() {
 
 
 void loop() {
-  
+
   Lock();
   
   Pos = constrain(Pos, 0, CodeLength);
@@ -131,6 +124,13 @@ void loop() {
     Pos++;
     Str[Pos] = '\0';
     delay(250);
+
+    lcd.setCursor(15, 0);
+    lcd.print("E");
+    delay(400);
+    lcd.setCursor(15, 0);
+    lcd.print(" ");
+    
     while (digitalRead(buttonPin1) == LOW); 
      if (strcmp (Str,CODE) == 0) {
       Unlocked = true;
@@ -139,20 +139,8 @@ void loop() {
       delay(2000);
       lcd.clear();
       lcd.print("    Unlocked");
+      
     } 
-    else if (SaveTimer > millis() && (Pos + 1) == CodeLength) { 
-
-      strcpy(CODE, Str);
-      for (Pos = 0; Pos <= (CodeLength + 1); Pos++) {
-        EEPROM.write(Pos, Str[Pos]);
-      }
-      lcd.setCursor(0, 0);
-      lcd.print("Saving Code:");
-      lcd.setCursor(0, 1);
-      lcd.print(Str);
-
-      Unlocked = true;
-    }
 
     else { 
 
@@ -169,6 +157,7 @@ void loop() {
       if (digitalRead(clearlockbutton) == LOW) {
         delay(200);
         lcd.clear();
+        delay(3000);
         lcd.print("     Locked");
         delay(2000);
         lcd.clear();
@@ -198,9 +187,19 @@ void loop() {
     DisplayTimer += DisplayDelay;
     lcd.setCursor(9, 0); 
     lcd.print(Str);
-    lcd.print("     ");
+    lcd.setCursor(15, 0);
+    lcd.print(" ");
+
+    if (clButtonState == LOW) {
+
+      lcd.clear();
+      lcd.print("Password:");
+      
+    }
+
 
   }
+
 }
 
 void ClearCode() {
@@ -216,12 +215,14 @@ void ClearCode() {
 
 void Unlock() {
 
-  myServo.write(150);
+  myServo.write(117);
   
 }
+//delay(2000);
 
 void Lock() {
 
-  myServo.write(50);
+  myServo.write(26);
 
 }
+
