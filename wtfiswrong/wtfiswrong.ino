@@ -2,6 +2,8 @@
 #include <EEPROM.h>
 #include <Servo.h>
 
+// Wow hello this is old
+
 int address = 0;
 static unsigned long SaveTimer;
 static unsigned long SaveDelay = (30 * 1000); 
